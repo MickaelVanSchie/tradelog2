@@ -16,11 +16,30 @@ This file is subject to change as we progress in the project.
 1: We prefer readability of code by making use of self explanatory names for functions, variables and classes over
 comments.
 
+Below are a few examples of good and bad naming conventions
+```python
+# Functions
+# Bad: 
+def p(n):  # Processes user input name
+    # do some amazing stuff
+
+
+# Good
+def process_user_name(name): # Function name clearly describes its purpose
+    # do some amazing stuff
+
+# Variables
+# Bad
+x = [x for x in users][0] # x is too generic. x could be anything.
+
+# Good
+first_user = [user for user in users][0]
+```
 2: We prefer small, readable single purpose functions over large monolith functions.
 
 3: Functionality for a specific model should be in housed the model itself rather than in controllers.
 
-4: We make use of typing where possible.
+4: We make use of typing where possible and we enforce this using `mypy`.
 
 5: We make use of snake case for naming variables and functions. And screaming snake case for constants.
 
