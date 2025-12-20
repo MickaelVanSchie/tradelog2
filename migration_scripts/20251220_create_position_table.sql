@@ -6,6 +6,8 @@ create table pair
     constraint unique_base_quote_currency unique (base_currency, quote_currency)
 );
 
+create index idx_pair_id
+    on pair (base_currency);
 
 create table position
 (
@@ -22,6 +24,8 @@ create table position
     updated        timestamp
 );
 
+create index idx_position_id on position (id);
+
 create table position_comment
 (
     id       UUID primary key,
@@ -29,3 +33,5 @@ create table position_comment
     created  timestamp not null default now(),
     content  text      not null
 );
+
+create index idx_position_comment_id on position_comment (id);

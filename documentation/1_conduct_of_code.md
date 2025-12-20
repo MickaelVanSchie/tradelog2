@@ -58,3 +58,5 @@ first_user = [user for user in users][0]
 2: For templating we make use of Jinja2.
 
 3: We make use of snake case for naming variables and functions.
+
+4: We prefer the use of url_for over the use of hardcoded links because using hardcoded links might become more error prone.
