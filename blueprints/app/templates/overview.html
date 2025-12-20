@@ -1,4 +1,21 @@
 {% extends "master.html" %}
 {% block content %}
-
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <h5>
+                    Create a new position
+                </h5>
+            </div>
+            <div class="row">
+                <form action="{{ url_for('main_app.create_position') }}" method="post">
+                    <select name="pair" id="pair">
+                        {% for pair in pairs %}
+                            <option value="{{ pair.id }}">{{ pair.shorthand }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
