@@ -46,7 +46,3 @@ class Position(Base):
         maximum_loss_ratio = max(self.entry, self.stop_loss) - min(self.entry, self.stop_loss)
         maximum_profit_ratio = max(self.entry, self.take_profit) - min(self.entry, self.take_profit)
         return round(maximum_profit_ratio / maximum_loss_ratio, 2)
-
-    def reverse_risk_calculator(self, ratio: float) -> float:
-        risk = self.entry - self.stop_loss
-        return round(risk, 2)
