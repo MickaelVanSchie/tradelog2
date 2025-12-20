@@ -1,17 +1,19 @@
+from __future__ import annotations
 from datetime import datetime
-from uuid import UUID
 from sqlalchemy import Column, ForeignKey, Text, TIMESTAMP
-from sqlalchemy.dialects.postgresql import UUID as SQLUUID
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 
 from consts.trade_consts import TradeType
 from models import Base
+from models.pair import Pair
 
 
 class Position(Base):
     __tablename__ = "position"
 
-    id: UUID = Column(SQLUUID, primary_key=True)
-    pair_id: UUID = Column(SQLUUID, ForeignKey("pair.id"))
+    id: UUID = Column(UUID(as_uuid=True), primary_key=True)
+    pair_id: UUID = Column(UUID(as_uuid=True), ForeignKey("pair.id"))
     type: TradeType = Column(Text, nullable=False)
     entry: float = Column(nullable=False)
     stop_loss: float = Column(nullable=False)
@@ -19,13 +21,27 @@ class Position(Base):
     exit_price: float | None = Column(nullable=True)
     position_size: float = Column(nullable=False)
     opening_reason: str = Column(Text, nullable=True)
-    created: datetime  = Column(TIMESTAMP, nullable=False)
-    updated: datetime | None = Column(TIMESTAMP, nullable=True)
+    created: datetime = Column(TIMESTAMP, nullable=False, default=datetime.now())
+    updated: datetime | None = Column(TIMESTAMP, nullable=True, default=datetime.now())
+
+    # Relationships
+
+    pair: Pair = relationship('Pair')
+
+    # Properties
 
     @property
     def result_money(self) -> float:
         value_one = self.position_size * self.entry
-        value_two = self.position_size * self.exit_price
-        if self.type == TradeType.SHORT:
-            return value_one - value_two
-        return value_two - value_one
+        if self.exit_price:
+            value_two = self.position_size * self.exit_price
+            if self.type == TradeType.SHORT:
+                return value_one - value_two
+            return value_two - value_one
+        return 0.0
+
+    @property
+    def risk_reward_ratio(self) -> str:
+        maximum_loss_ratio = max(self.entry, self.stop_loss) - min(self.entry, self.stop_loss)
+        maximum_profit_ratio = max(self.entry, self.take_profit) - min(self.entry, self.take_profit)
+        return f"R{maximum_profit_ratio / maximum_loss_ratio}"

@@ -7,7 +7,7 @@ from models import Base
 class Pair(Base):
     __tablename__ = "pair"
 
-    id = Column(UUID, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True)
     base_currency = Column(Text, nullable=False)
     quote_currency = Column(Text, nullable=False)
 

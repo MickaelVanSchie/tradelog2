@@ -9,7 +9,7 @@ main_app = Blueprint('main_app', __name__, template_folder='templates')
 from .positions import create_position
 
 @main_app.route('/')
-def index():
+def index() -> str:
     positions = db.query(Position).order_by(Position.created.desc()).all()
     pairs = db.query(Pair).all()
     return render_template('overview.html', positions=positions, pairs=pairs)

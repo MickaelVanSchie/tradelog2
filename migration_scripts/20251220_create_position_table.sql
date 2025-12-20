@@ -17,7 +17,7 @@ create table position
     entry          float     not null,
     stop_loss      float     not null,
     take_profit    float     not null,
-    exit_price     float     not null,
+    exit_price     float,
     position_size  float     not null,
     opening_reason text      not null,
     created        timestamp not null default now(),

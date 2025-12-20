@@ -14,7 +14,57 @@
                             <option value="{{ pair.id }}">{{ pair.shorthand }}</option>
                         {% endfor %}
                     </select>
+                    <input type="text" placeholder="Entry..." name="entry" id="entry">
+                    <input type="text" placeholder="Stop Loss..." name="stop_loss" id="stop_loss">
+                    <input type="text" placeholder="Take profit..." name="take_profit" id="take_profit">
+                    <input type="text" placeholder="Position size..." name="size" id="size">
+                    <input type="text" placeholder="Tags..." name="tags" id="tags">
+                    <input type="text" placeholder="Entry reason..." name="reason" id="reason">
+                    <input type="submit">
                 </form>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col">Ticker</div>
+                        <div class="col">Size</div>
+                        <div class="col">Entry</div>
+                        <div class="col">T/P</div>
+                        <div class="col">S/L</div>
+                        <div class="col">R/R</div>
+                        <div class="col">Tags</div>
+                        <div class="col">Open Time</div>
+                        <div class="col">Tools</div>
+                    </div>
+                    {% for position in positions %}
+                        <div class="row">
+                            <div class="col">
+                                {{ position.pair.shorthand }}
+                            </div>
+                            <div class="col">
+                                {{ position.position_size }}
+                            </div>
+                            <div class="col">
+                                {{ position.entry }}
+                            </div>
+                            <div class="col">
+                                {{ position.take_profit }}
+                            </div>
+                            <div class="col">
+                                {{ position.stop_loss }}
+                            </div>
+                            <div class="col">
+                                {{ position.risk_reward_ratio }}
+                            </div>
+                            <div class="col"></div>
+                            <div class="col">
+                                {{ position.created.strftime("%d-%m-%Y %H:%m") }}
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
