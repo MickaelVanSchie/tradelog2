@@ -4,7 +4,7 @@ from sqlalchemy import Column, ForeignKey, Text, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from consts.trade_consts import TradeType
+from consts.trade_consts import TradeType, TradeStatus
 from models import Base
 from models.pair import Pair
 
@@ -23,6 +23,7 @@ class Position(Base):
     opening_reason: str = Column(Text, nullable=True)
     created: datetime = Column(TIMESTAMP, nullable=False, default=datetime.now())
     updated: datetime | None = Column(TIMESTAMP, nullable=True, default=datetime.now())
+    status: TradeStatus = Column(Text, nullable=False, default="open")
 
     # Relationships
 
@@ -41,7 +42,11 @@ class Position(Base):
         return 0.0
 
     @property
-    def risk_reward_ratio(self) -> str:
+    def risk_reward_ratio(self) -> float:
         maximum_loss_ratio = max(self.entry, self.stop_loss) - min(self.entry, self.stop_loss)
         maximum_profit_ratio = max(self.entry, self.take_profit) - min(self.entry, self.take_profit)
-        return f"R{maximum_profit_ratio / maximum_loss_ratio}"
+        return round(maximum_profit_ratio / maximum_loss_ratio, 2)
+
+    def reverse_risk_calculator(self, ratio: float) -> float:
+        risk = self.entry - self.stop_loss
+        return round(risk, 2)

@@ -10,6 +10,7 @@ from .positions import create_position
 
 @main_app.route('/')
 def index() -> str:
-    positions = db.query(Position).order_by(Position.created.desc()).all()
+    positions = db.query(Position).order_by(Position.created.asc()).all()
     pairs = db.query(Pair).all()
+
     return render_template('overview.html', positions=positions, pairs=pairs)

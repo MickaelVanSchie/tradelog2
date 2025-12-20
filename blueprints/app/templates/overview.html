@@ -28,19 +28,26 @@
                 <div class="col-12">
                     <div class="row">
                         <div class="col">Ticker</div>
+                        <div class="col">Type</div>
                         <div class="col">Size</div>
                         <div class="col">Entry</div>
                         <div class="col">T/P</div>
                         <div class="col">S/L</div>
                         <div class="col">R/R</div>
+                        <div class="col">Closed Price</div>
                         <div class="col">Tags</div>
                         <div class="col">Open Time</div>
                         <div class="col">Tools</div>
                     </div>
                     {% for position in positions %}
+                        {% set css_class = "text-danger" if position.risk_reward_ratio < 2 else
+                                  "text-warning" if position.risk_reward_ratio <= 2.5 else "text-success" %}
                         <div class="row">
                             <div class="col">
                                 {{ position.pair.shorthand }}
+                            </div>
+                            <div class="col">
+                                {{ position.type }}
                             </div>
                             <div class="col">
                                 {{ position.position_size }}
@@ -54,8 +61,11 @@
                             <div class="col">
                                 {{ position.stop_loss }}
                             </div>
+                            <div class="col {{ css_class }}">
+                                R{{ position.risk_reward_ratio }}
+                            </div>
                             <div class="col">
-                                {{ position.risk_reward_ratio }}
+                                {{ position.exit_price if position.exit_price else "" }}
                             </div>
                             <div class="col"></div>
                             <div class="col">
