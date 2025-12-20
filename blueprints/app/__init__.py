@@ -1,8 +1,12 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 
-main_app = Blueprint('main_app', __name__)
+from config.database import db
+from models import Position
+
+main_app = Blueprint('main_app', __name__, template_folder='templates')
 
 
 @main_app.route('/')
 def index():
-    return 'Hello World!'
+    positions = db.query(Position).all()
+    return render_template('overview.html')

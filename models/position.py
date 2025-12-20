@@ -4,20 +4,21 @@ from sqlalchemy import Column, ForeignKey, Text, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID as SQLUUID
 
 from consts.trade_consts import TradeType
+from models import Base
 
 
-class Position:
+class Position(Base):
     __tablename__ = "position"
 
     id: UUID = Column(SQLUUID, primary_key=True)
     pair_id: UUID = Column(SQLUUID, ForeignKey("pair.id"))
-    type: TradeType = Column(TradeType, nullable=False)
+    type: TradeType = Column(Text, nullable=False)
     entry: float = Column(nullable=False)
     stop_loss: float = Column(nullable=False)
     take_profit: float = Column(nullable=False)
     exit_price: float | None = Column(nullable=True)
     position_size: float = Column(nullable=False)
-    reason: str = Column(Text, nullable=True)
+    opening_reason: str = Column(Text, nullable=True)
     created: datetime  = Column(TIMESTAMP, nullable=False)
     updated: datetime | None = Column(TIMESTAMP, nullable=True)
 
