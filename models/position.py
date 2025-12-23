@@ -2,7 +2,7 @@ from __future__ import annotations
 from datetime import datetime
 from sqlalchemy import Column, ForeignKey, Text, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Mapped
 
 from consts.trade_consts import TradeType, TradeStatus, TRADE_TYPE
 from models import Base
@@ -12,8 +12,8 @@ from models.pair import Pair
 class Position(Base):
     __tablename__ = "position"
 
-    id: UUID = Column(UUID(as_uuid=True), primary_key=True)
-    pair_id: UUID = Column(UUID(as_uuid=True), ForeignKey("pair.id"))
+    id: Mapped[UUID] =Column(UUID(as_uuid=True), primary_key=True)
+    pair_id: Mapped[UUID] = Column(UUID(as_uuid=True), ForeignKey("pair.id"))
     type: TradeType = Column(Text, nullable=False)
     entry: float = Column(nullable=False)
     stop_loss: float = Column(nullable=False)
@@ -27,7 +27,7 @@ class Position(Base):
 
     # Relationships
 
-    pair: Pair = relationship('Pair')
+    pair: Mapped[Pair] = relationship('Pair')
 
     # Properties
 
