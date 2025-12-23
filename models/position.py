@@ -4,7 +4,7 @@ from sqlalchemy import Column, ForeignKey, Text, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from consts.trade_consts import TradeType, TradeStatus
+from consts.trade_consts import TradeType, TradeStatus, TRADE_TYPE
 from models import Base
 from models.pair import Pair
 
@@ -33,12 +33,12 @@ class Position(Base):
 
     @property
     def result_money(self) -> float:
-        value_one = self.position_size * self.entry
         if self.exit_price:
+            value_one = self.position_size * self.entry
             value_two = self.position_size * self.exit_price
-            if self.type == TradeType.SHORT:
-                return value_one - value_two
-            return value_two - value_one
+            if self.type == TRADE_TYPE.SHORT:
+                return round(value_one - value_two, 2)
+            return round(value_two - value_one, 2)
         return 0.0
 
     @property

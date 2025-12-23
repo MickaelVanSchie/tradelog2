@@ -1,0 +1,11 @@
+.row-stop-loss {
+    background-color: #c15a5a;
+}
+
+.row-take-profit {
+    background-color: #5ac1a8;
+}
+
+.row-cancelled {
+    background-color: #646eae;
+}

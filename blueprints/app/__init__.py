@@ -4,7 +4,7 @@ from config.database import db
 from models import Position
 from models.pair import Pair
 
-main_app = Blueprint('main_app', __name__, template_folder='templates')
+main_app = Blueprint('main_app', __name__, template_folder='templates', static_folder='static', url_prefix='/')
 
 from .positions import create_position
 
