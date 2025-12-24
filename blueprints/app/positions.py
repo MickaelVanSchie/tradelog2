@@ -31,4 +31,4 @@ def create_position():
     db.add(position)
     db.commit()
 
-    return redirect(url_for('main_app.index'))
+    return position

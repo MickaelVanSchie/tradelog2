@@ -1,3 +1,6 @@
+import datetime
+from uuid import UUID
+
 import pytest
 from models import Position
 from models.pair import Pair
@@ -50,3 +53,23 @@ def test_client(session):
     with flask_app.test_client() as client:
         with flask_app.app_context():
             yield client
+
+
+@pytest.fixture
+def test_position() -> Position:
+    pos = Position(
+        id=UUID("7c0ca90e-6359-4b62-9117-bfd24548505c"),
+        pair_id=UUID('4f2eaaf3-4cd7-4b1f-a0e5-2328f6f0689d'),
+        type="long",
+        entry=100,
+        stop_loss=90,
+        take_profit=110,
+        exit_price=None,
+        position_size=1,
+        opening_reason="manual",
+        created=datetime.now(),
+        updated=datetime.now(),
+        status="open"
+    )
+
+    return pos
