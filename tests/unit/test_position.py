@@ -2,7 +2,7 @@ import uuid
 from unittest.mock import Mock, patch
 
 import pytest
-from flask import url_for
+from flask import url_for, flash
 
 from blueprints.app.positions import store_position
 from blueprints.exceptions.position_store import PositionStoreException
@@ -53,13 +53,19 @@ def test_create_position_invalid_input(test_client):
         'stop_loss': '90.0',
         'pair': str(uuid.uuid4()),
         'reason': 'Test reason',
-        'size': '1.0'
     }
-    response = test_client.post('/create-position', data=invalid_data)
-    assert response.status_code == 302
+
+    with patch('flask.flash') as mock_flash:
+        response = test_client.post('/create-position', data=invalid_data)
+        assert response.status_code == 302
+        assert mock_flash.assert_called_with('Invalid input. Please ensure all fields are filled correctly', 'danger')
+
+    print(mock_flash.mock_calls)
 
 
 def test_create_position_store_exception(test_client, valid_position_data):
-    with patch('blueprints.app.positions.store_position', side_effect=PositionStoreException):
+    with patch('blueprints.app.positions.store_position', side_effect=PositionStoreException), \
+            patch('flask.flash') as mock_flash:
         response = test_client.post('/create-position', data=valid_position_data)
         assert response.status_code == 302
+        assert mock_flash.assert_called()

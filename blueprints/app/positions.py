@@ -9,7 +9,7 @@ from config.database import db
 from models import Position
 
 
-def store_position(entry, take_profit, stop_loss, pair, reason, size):
+def store_position(entry: float, take_profit: float, stop_loss: float, pair: uuid.UUID, reason: str, size: float):
     try:
         position = Position(
             id=uuid.uuid4(),
@@ -44,6 +44,7 @@ def create_position():
 
         return redirect('/')
     except (ValueError, TypeError):
+        print("Testttt")
         flash("Invalid input. Please ensure all fields are filled correctly.", "danger")
         return redirect(request.referrer)
     except PositionStoreException:
