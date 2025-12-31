@@ -4,7 +4,7 @@ from sqlalchemy import Column, ForeignKey, Text, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, Mapped
 
-from consts.trade_consts import TradeType, TradeStatus, TRADE_TYPE
+from consts.position_consts import TradeType, TradeStatus, TRADE_TYPE
 from models import Base
 from models.pair import Pair
 

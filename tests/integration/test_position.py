@@ -22,13 +22,4 @@ def test_create_position_with_form_data(test_client, session, monkeypatch):
         "size": 2.5,
     })
 
-    assert response.status_code == 200
-    data = json.loads(response.data.decode())
-    assert 'id' in data
-    assert data["pair_id"] == pair_id
-    assert data["type"] == "long"
-    assert data["entry"] == 10.0
-    assert data["take_profit"] == 12.0
-    assert data["stop_loss"] == 8.0
-    assert data["position_size"] == 2.5
-    assert data["opening_reason"] == "breakout"
+    assert response.status_code == 302

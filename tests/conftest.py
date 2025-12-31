@@ -36,6 +36,9 @@ def session(monkeypatch):
         def commit(self):
             return None
 
+        def rollback(self):
+            return None
+
     dummy_session = DummySession()
 
     monkeypatch.setattr('config.database.db', dummy_session)
