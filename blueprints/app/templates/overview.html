@@ -1,4 +1,5 @@
 {% extends "master.html" %}
+{% include "modals/upload_position_image.html" %}
 {% block content %}
     <div class="row">
         <div class="col-12">
@@ -72,11 +73,26 @@
                             <div class="col">
                                 {{ position.created.strftime("%d-%m-%Y %H:%m") }}
                             </div>
-                            <div class="col"></div>
+                            <div class="col">
+                                <i class="fas fa-upload" data-position-id="{{ position.id }}"></i>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        const uploadModal = document.getElementById('upload_position_image_modal');
+        let fileUploadPostionId = document.getElementById('file_upload_position_id');
+        const modal = new bootstrap.Modal(uploadModal);
+
+        document.querySelectorAll('.fa-upload').forEach(icon => {
+            icon.addEventListener('click', function () {
+                fileUploadPostionId.value = this.dataset.positionId;
+                console.log(fileUploadPostionId.value);
+                modal.show();
+            });
+        });
+    </script>
 {% endblock %}

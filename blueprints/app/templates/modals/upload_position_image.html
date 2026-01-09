@@ -1,0 +1,23 @@
+<div class="modal" aria-hidden="true" id="upload_position_image_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body">
+                <form action="upload-position-image" method="post" enctype="multipart/form-data">
+                    <input type="text" name="position_id" id="file_upload_position_id" hidden>
+                    <select name="image_type" id="image_type">
+                        <option value="open">Open</option>
+                        <option value="close">Close</option>
+                    </select>
+                    <input type="file" name="image" id="image">
+                    <input type="submit">
+                </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>

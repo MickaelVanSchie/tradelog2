@@ -7,6 +7,7 @@ from sqlalchemy.orm import relationship, Mapped
 from consts.position_consts import TradeType, TradeStatus, TRADE_TYPE
 from models import Base
 from models.pair import Pair
+from models.position_image import PositionImage
 
 
 class Position(Base):
@@ -28,6 +29,7 @@ class Position(Base):
     # Relationships
 
     pair: Mapped[Pair] = relationship('Pair')
+    images: Mapped[list[PositionImage]] = relationship('PositionImage', back_populates='position')
 
     # Properties
 
@@ -46,3 +48,12 @@ class Position(Base):
         maximum_loss_ratio = max(self.entry, self.stop_loss) - min(self.entry, self.stop_loss)
         maximum_profit_ratio = max(self.entry, self.take_profit) - min(self.entry, self.take_profit)
         return round(maximum_profit_ratio / maximum_loss_ratio, 2)
+
+
+    @property
+    def open_image(self) -> PositionImage | None:
+        return next((image for image in self.images if image.type == "open"), None)
+
+    @property
+    def close_image(self) -> PositionImage | None:
+        return next((image for image in self.images if image.type == "close"), None)

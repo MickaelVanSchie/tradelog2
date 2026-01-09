@@ -7,3 +7,6 @@ TradeStatus = Literal["open", "filled", "cancelled", "take_profit", "stop_loss",
 class TRADE_TYPE:
     LONG = "long"
     SHORT = "short"
+
+ImageType = Literal["open", "close"]
+ImageExtension = Literal["jpg", "png", "gif"]
